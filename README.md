@@ -62,3 +62,21 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+
+## Start PHP
+ 
+ 
+After Clone if doesn't start : 
+    (Windows)
+    1 : Go to your repo pnm-back 
+    2 : php artisan key:generate
+    3 : php artisan serve
+    
+    (Linux)
+    1 : Go to your repo pnm-back 
+    2 : sudo php artisan key:generate
+            -> If don't work
+                sudo chmod 777 -R storage
+    3 : sudo php artisan serve
+    
