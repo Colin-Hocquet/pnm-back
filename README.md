@@ -66,8 +66,11 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 
 ## Start PHP
  
- 
 After Clone if doesn't start : 
+
+Do : 
+    cp .env.examples .env
+
     (Windows)
     1 : Go to your repo pnm-back 
     2 : php artisan key:generate
