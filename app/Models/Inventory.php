@@ -15,7 +15,8 @@ class Inventory extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'label'
+        'label',
+        'default'
     ];
 
     /**
