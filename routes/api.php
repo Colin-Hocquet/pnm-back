@@ -7,6 +7,8 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\BoxController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\VehicleController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -27,3 +29,5 @@ Route::apiResource('user', UserController::class);
 Route::apiResource('item', ItemController::class);
 Route::apiResource('inventory', InventoryController::class);
 Route::apiResource('box', BoxController::class);
+Route::apiResource('vehicle', VehicleController::class);
+
