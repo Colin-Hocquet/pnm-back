@@ -8,6 +8,7 @@ use App\Http\Controllers\BoxController;
 use App\Http\Controllers\AddressController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\VehicleController;
+use App\Http\Controllers\AuthController;
 
 
 /*
@@ -24,10 +25,17 @@ use App\Http\Controllers\VehicleController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth:sanctum');
+Route::post('/me', [AuthController::class, 'me'])->middleware('auth:sanctum');
 
-Route::apiResource('user', UserController::class);
-Route::apiResource('item', ItemController::class);
-Route::apiResource('inventory', InventoryController::class);
-Route::apiResource('box', BoxController::class);
-Route::apiResource('vehicle', VehicleController::class);
-
+Route::group(['middleware' => 'auth:sanctum'], function () {
+    Route::apiResources([
+        'user' => UserController::class,
+        'item' => ItemController::class,
+        'inventory' => InventoryController::class,
+        'box' => BoxController::class,
+        'vehicle' => VehicleController::class
+    ]);
+});
