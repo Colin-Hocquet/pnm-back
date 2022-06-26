@@ -27,25 +27,44 @@ class AuthController extends Controller
             'email' => 'required|string|email|max:100|unique:users',
             'password' => 'required|string|min:8',
         ]);
+        try {
+            User::create([
+                'name' => $validatedData['name'],
+                'firstname' => $validatedData['firstname'],
+                'lastname' => $validatedData['lastname'],
+                'email' => $validatedData['email'],
+                'password' => Hash::make($validatedData['password']),
+            ]);
+            return response()->json([
+                'message' => __('User created'),
+                'result'  => true
+            ]);
+        }catch (\Exception $exception){
+            return response()->json([
+                'message' => $exception->getMessage(),
+                'result'  => false
+            ]);
+        }
+        // if(User::create([
+        //             'name' => $validatedData['name'],
+        //             'firstname' => $validatedData['firstname'],
+        //             'lastname' => $validatedData['lastname'],
+        //             'email' => $validatedData['email'],
+        //             'password' => Hash::make($validatedData['password']),
+        //     ])){
+        //         return response()->json([
+        //             'success' => 'Utilisateur créé avec succés !'
+        //         ],200);
+        //     } else {
 
-        if(User::create([
-                    'name' => $validatedData['name'],
-                    'firstname' => $validatedData['firstname'],
-                    'lastname' => $validatedData['lastname'],
-                    'email' => $validatedData['email'],
-                    'password' => Hash::make($validatedData['password']),
-            ])){
-                return response()->json([
-                    'success' => 'Utilisateur créé avec succés !'
-                ],200);
-            }
+        //     }
 
         // $token = $user->createToken('auth_token')->plainTextToken;
 
-        return response()->json([
-                    'access_token' => $token,
-                        'token_type' => 'Bearer',
-        ]);
+        // return response()->json([
+        //             'access_token' => $token,
+        //                 'token_type' => 'Bearer',
+        // ]);
     }
 
 
@@ -61,10 +80,7 @@ class AuthController extends Controller
      
     public function login(Request $request)
     {
-        $this->tokenGenerate($request);
-        return response()->json([
-            'message' => 'Successfully login'
-        ]);
+       return $this->tokenGenerate($request);
     }
 
     /**
@@ -115,10 +131,10 @@ class AuthController extends Controller
         }
      
         $token = $user->createToken($request->device_name)->plainTextToken;
-        var_dump($token);
         return response()->json([
             'access_token' => $token,
             'token_type' => 'Bearer',
+            'user' => $user,
     ]);
     }
 
