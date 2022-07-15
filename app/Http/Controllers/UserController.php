@@ -75,4 +75,13 @@ class UserController extends Controller
             ],200);
         }
     }
+
+
+    /**
+     * Send notification email reset
+     *
+     * @param  $token
+     * @return \Illuminate\Http\Response
+     */
+
 }

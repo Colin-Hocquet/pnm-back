@@ -54,4 +54,10 @@ class User extends Authenticatable
     public function inventory(){
         return $this->hasMany(Inventory::class );
     }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $url = 'http://127.0.0.1:8000'.'/password/forgot-password'.'?token='.$token;
+        $this->notify(new \App\Notifications\MailResetPasswordNotification($url));
+    }
 }
