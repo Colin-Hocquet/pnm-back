@@ -32,6 +32,7 @@ Route::post('/password/forgot-password', [ForgotPasswordController::class, 'send
 Route::post('/password/reset', [ResetPasswordController::class, 'sendResetResponse'])->name('passwords.reset');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth:sanctum');
 Route::post('/me', [AuthController::class, 'me'])->middleware('auth:sanctum');
+Route::get('inventory/items/{id}', [ItemController::class,'findAllItemByInventory'])->name('inventory.findAllItemByInventory');
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResources([
@@ -41,4 +42,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         'box' => BoxController::class,
         'vehicle' => VehicleController::class
     ]);
+
 });
+
