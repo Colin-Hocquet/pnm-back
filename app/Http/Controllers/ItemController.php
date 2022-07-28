@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Item;
+use App\Models\Inventory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ItemController extends Controller
 {
@@ -16,6 +18,7 @@ class ItemController extends Controller
     {
         return Item::all();
     }
+
 
     /**
      * Store a newly created resource in storage.
@@ -42,6 +45,21 @@ class ItemController extends Controller
     {
         return $item;
     }
+
+    /**
+     * Find items linked to an inventory.
+     *If inventory_id == id attribute, return the label and the id of items
+     * @param  \App\Models\Inventory  inventory id param
+     * @return \Illuminate\Http\Response
+     */
+    public function findAllItemByInventory(String $id)
+    {
+
+        $items = DB::table('items')->where('inventory_id', $id)->pluck('label','id');
+
+        return $items;
+    }
+
 
     /**
      * Update the specified resource in storage.

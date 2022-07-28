@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inventory;
+use App\Models\Item;
 use Illuminate\Http\Request;
+use Ramsey\Uuid\Type\Integer;
 
 class InventoryController extends Controller
 {
@@ -42,6 +44,8 @@ class InventoryController extends Controller
     {
         return $inventory;
     }
+
+
 
     /**
      * Update the specified resource in storage.
