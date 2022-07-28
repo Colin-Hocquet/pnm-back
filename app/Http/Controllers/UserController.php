@@ -54,6 +54,9 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        if($request['password']) {
+            $request['password'] = Hash::make($request['password']);
+        }
         if($user->update($request->all())){
             return response()->json([
                 'success' => 'Utilisateur modifié avec succès !'
