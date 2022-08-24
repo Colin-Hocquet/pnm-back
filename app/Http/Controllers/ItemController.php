@@ -55,8 +55,7 @@ class ItemController extends Controller
     public function findAllItemByInventory(String $id)
     {
 
-        $items = DB::table('items')->where('inventory_id', $id)->pluck('label','id');
-
+        $items = DB::table('items')->where('inventory_id', $id)->get(["id","label"]);
         return $items;
     }
 
