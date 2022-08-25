@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Inventory extends Model
 {
     use HasFactory;
-    
+
     /**
      * The attributes that are mass assignable.
      *
@@ -16,7 +16,8 @@ class Inventory extends Model
      */
     protected $fillable = [
         'label',
-        'default'
+        'default',
+        'user_id'
     ];
 
     /**
