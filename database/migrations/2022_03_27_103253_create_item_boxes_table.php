@@ -28,6 +28,6 @@ class CreateItemBoxesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('item_boxes');
+        Schema::dropIfExists('item_box');
     }
 }

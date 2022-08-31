@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddAttributeToItem extends Migration
+class AddQuantityToItemBoxes extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,8 @@ class AddAttributeToItem extends Migration
      */
     public function up()
     {
-        Schema::table('items', function (Blueprint $table) {
-            $table->boolean('default')->default(false);
+        Schema::table('item_box', function (Blueprint $table) {
             $table->integer('quantity')->default(0);
-
         });
     }
 
@@ -27,8 +25,7 @@ class AddAttributeToItem extends Migration
      */
     public function down()
     {
-        Schema::table('items', function (Blueprint $table) {
-            $table->dropColumn('default');
+        Schema::table('item_box', function (Blueprint $table) {
             $table->dropColumn('quantity');
 
         });

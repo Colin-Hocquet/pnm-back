@@ -59,6 +59,16 @@ class ItemController extends Controller
         return $items;
     }
 
+    /**
+     * Get last item created
+     * @param  \App\Models\Inventory  inventory id param
+     * @return \Illuminate\Http\Response
+     */
+    public function findLastItem()
+    {
+        $item = DB::table('items')->latest('id')->first();
+        return $item->id;
+    }
 
     /**
      * Update the specified resource in storage.
