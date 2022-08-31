@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddAttributeToItem extends Migration
+class AddTimestampsToItemBox extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,8 @@ class AddAttributeToItem extends Migration
      */
     public function up()
     {
-        Schema::table('items', function (Blueprint $table) {
-            $table->boolean('default')->default(false);
-            $table->integer('quantity')->default(0);
-
+        Schema::table('item_box', function (Blueprint $table) {
+            $table->timestamps();
         });
     }
 
@@ -27,9 +25,8 @@ class AddAttributeToItem extends Migration
      */
     public function down()
     {
-        Schema::table('items', function (Blueprint $table) {
-            $table->dropColumn('default');
-            $table->dropColumn('quantity');
+        Schema::table('item_box', function (Blueprint $table) {
+            $table->dropTimestamps();
 
         });
     }

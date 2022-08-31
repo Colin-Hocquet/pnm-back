@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Box;
+use App\Models\Inventory;
+use App\Models\ItemBox;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
-class BoxController extends Controller
+class ItemBoxController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,7 +15,7 @@ class BoxController extends Controller
      */
     public function index()
     {
-        return Box::all();
+        return ItemBox::all();
     }
 
     /**
@@ -26,9 +26,9 @@ class BoxController extends Controller
      */
     public function store(Request $request)
     {
-        if(Box::create($request->all())){
+        if(ItemBox::create($request->all())){
             return response()->json([
-                'success' => 'Boîte créé avec succès !'
+                'success' => 'ItemBox créé avec succès !'
             ],200);
         }
     }
@@ -36,39 +36,28 @@ class BoxController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Box  $box
+     * @param  \App\Models\Inventory  $itemBox
      * @return \Illuminate\Http\Response
      */
-    public function show(Box $box)
+    public function show(ItemBox $itemBox)
     {
-        return $box;
+        return $itemBox;
     }
 
-    /**
-     * Find last box linked to a user.
-     *If user_id == id attribute, return the last id of the box
-     * @param  \App\Models\Inventory  inventory id param
-     * @return \Illuminate\Http\Response
-     */
-    public function findLastBoxByUserID(String $id)
-    {
 
-            $box = DB::table('boxes')->where('user_id', $id)->get(["id"])->last();
-        return $box;
-    }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Box  $box
+     * @param  \App\Models\Inventory  $itemBox
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Box $box)
+    public function update(Request $request, ItemBox $itemBox)
     {
-        if($box->update($request->all())){
+        if($itemBox->update($request->all())){
             return response()->json([
-                'success' => 'Boîte modifié avec succès !'
+                'success' => 'ItemBox modifié avec succès !'
             ],200);
         }
     }
@@ -76,14 +65,14 @@ class BoxController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Box  $box
+     * @param  \App\Models\Inventory  $itemBox
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Box $box)
+    public function destroy(ItemBox $itemBox)
     {
-        if($box->delete()){
+        if($itemBox->delete()){
             return response()->json([
-                'success' => 'Boîte supprimé avec succès !'
+                'success' => 'ItemBox supprimé avec succès !'
             ],200);
         }
     }

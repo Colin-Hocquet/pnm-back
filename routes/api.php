@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ItemBoxController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
@@ -32,7 +33,6 @@ Route::post('/password/forgot-password', [ForgotPasswordController::class, 'send
 Route::post('/password/reset', [ResetPasswordController::class, 'sendResetResponse'])->name('passwords.reset');
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout')->middleware('auth:sanctum');
 Route::post('/me', [AuthController::class, 'me'])->middleware('auth:sanctum');
-Route::get('inventory/items/{id}', [ItemController::class,'findAllItemByInventory'])->name('inventory.findAllItemByInventory');
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::apiResources([
@@ -40,8 +40,11 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         'item' => ItemController::class,
         'inventory' => InventoryController::class,
         'box' => BoxController::class,
-        'vehicle' => VehicleController::class
+        'vehicle' => VehicleController::class,
+        'itembox' => ItemBoxController::class
     ]);
-
+    Route::get('inventory/items/{id}', [ItemController::class,'findAllItemByInventory'])->name('inventory.findAllItemByInventory');
+    Route::get('box/lastbox/{userid}', [BoxController::class,'findLastBoxByUserID'])->name('box.findLastBoxByUserID');
+    Route::get('lastitem', [ItemController::class,'findLastItem'])->name('item.findLastItem');
 });
 

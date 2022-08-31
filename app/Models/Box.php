@@ -15,7 +15,8 @@ class Box extends Model
      */
     protected $fillable = [
         'label',
-        'qrcode'
+        'qrcode',
+        'user_id'
     ];
 
     /**
@@ -27,7 +28,7 @@ class Box extends Model
         'created_at',
         'updated_at',
     ];
-    
+
     public function item(){
         return $this->belongsToMany(Item::class);
     }
