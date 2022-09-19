@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Inventory;
 use App\Models\Item;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Ramsey\Uuid\Type\Integer;
 
 class InventoryController extends Controller
@@ -46,6 +47,29 @@ class InventoryController extends Controller
     }
 
 
+    /**
+     * Find all inventories by user_id.
+     * @param  \App\Models\Inventory  inventory id param
+     * @return \Illuminate\Http\Response
+     */
+    public function findAllInventoriesByUserId(String $id)
+    {
+
+        $inventory = DB::table('inventories')->where('user_id', $id)->get();
+        return $inventory;
+    }
+
+    /**
+     * Find last inventory linked to the user.
+     * @param  \App\Models\Inventory  inventory id param
+     * @return \Illuminate\Http\Response
+     */
+    public function findLastInventoryByUserID(String $id)
+    {
+
+        $box = DB::table('inventories')->where('user_id', $id)->get(["id"])->last();
+        return $box;
+    }
 
     /**
      * Update the specified resource in storage.

@@ -44,6 +44,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         'itembox' => ItemBoxController::class
     ]);
     Route::get('inventory/items/{id}', [ItemController::class,'findAllItemByInventory'])->name('inventory.findAllItemByInventory');
+    Route::get('inventory/byuser/{id}', [InventoryController::class,'findAllInventoriesByUserId'])->name('inventory.findAllInventoriesByUserId');
+    Route::get('inventory/last/byuser/{id}', [InventoryController::class,'findLastInventoryByUserID'])->name('inventory.findLastInventoryByUserID');
     Route::get('box/lastbox/{userid}', [BoxController::class,'findLastBoxByUserID'])->name('box.findLastBoxByUserID');
     Route::get('lastitem', [ItemController::class,'findLastItem'])->name('item.findLastItem');
 });
