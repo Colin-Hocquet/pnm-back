@@ -48,14 +48,13 @@ class InventoryController extends Controller
 
 
     /**
-     * Find all inventories by user_id.
+     * Find all inventories by user_id and default inventory.
      * @param  \App\Models\Inventory  inventory id param
      * @return \Illuminate\Http\Response
      */
     public function findAllInventoriesByUserId(String $id)
     {
-
-        $inventory = DB::table('inventories')->where('user_id', $id)->get();
+        $inventory = DB::table('inventories')->where('user_id', $id)->orWhere('default',1)->get();
         return $inventory;
     }
 
