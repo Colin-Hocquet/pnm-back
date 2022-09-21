@@ -16,7 +16,8 @@ class Item extends Model
      */
     protected $fillable = [
         'label',
-        'inventory_id'
+        'inventory_id',
+        'default'
     ];
 
     /**

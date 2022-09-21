@@ -3,10 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inventory;
-use App\Models\Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Ramsey\Uuid\Type\Integer;
 
 class InventoryController extends Controller
 {
@@ -66,8 +64,8 @@ class InventoryController extends Controller
     public function findLastInventoryByUserID(String $id)
     {
 
-        $box = DB::table('inventories')->where('user_id', $id)->get(["id"])->last();
-        return $box;
+        $inventory = DB::table('inventories')->where('user_id', $id)->get(["id","label"])->last();
+        return $inventory;
     }
 
     /**
@@ -94,10 +92,17 @@ class InventoryController extends Controller
      */
     public function destroy(Inventory $inventory)
     {
-        if($inventory->delete()){
+        $attribute = DB::table('inventories')->where('id',$inventory->id)->where('default',0)->get();
+
+        if($attribute->isEmpty()){
             return response()->json([
-                'success' => 'Inventaire supprimé avec succès !'
-            ],200);
+                'error' => 'Les pièces par défauts ne peuvent pas être supprimés !'
+            ], 400);
+        } else {
+            $inventory->delete();
+            return response()->json([
+                'success' => 'Pièce supprimé avec succès !'
+            ], 200);
         }
     }
 }
