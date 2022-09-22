@@ -1,7 +1,6 @@
 <?php
 
 namespace App\Http\Controllers;
-use Illuminate\Support\Facades\Log;
 use App\Models\Box;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -81,7 +80,6 @@ class BoxController extends Controller
      */
     public function showItemByBox(String $id)
     {
-        Log::info($id);
         $itemBox = DB::table('boxes')
              ->join('item_box', 'boxes.id', '=', 'item_box.box_id')
              ->join('items', 'items.id', '=', 'item_box.item_id')
