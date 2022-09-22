@@ -37,7 +37,7 @@ class ItemBox extends Model
         return $this->belongsTo(Item::class, 'item_id');
     }
 
-    public function user()
+    public function box()
     {
         return $this->belongsTo(Box::class, 'box_id');
     }
