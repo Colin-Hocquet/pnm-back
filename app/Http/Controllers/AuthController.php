@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Settings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
+
 class AuthController extends Controller
 {
     /**
@@ -28,12 +31,15 @@ class AuthController extends Controller
             'password' => 'required|string|min:8',
         ]);
         try {
-            User::create([
+            $user = User::create([
                 'name' => $validatedData['name'],
                 'firstname' => $validatedData['firstname'],
                 'lastname' => $validatedData['lastname'],
                 'email' => $validatedData['email'],
                 'password' => Hash::make($validatedData['password']),
+            ]);
+            Settings::create([
+                'user_id' => $user->id
             ]);
             return response()->json([
                 'message' => __('User created'),
@@ -45,6 +51,16 @@ class AuthController extends Controller
                 'result'  => false
             ]);
         }
+        try {
+
+        }catch (\Exception $exception) {
+            return response()->json([
+                'message' => $exception->getMessage(),
+                'result' => false
+            ]);
+        }
+
+
         // if(User::create([
         //             'name' => $validatedData['name'],
         //             'firstname' => $validatedData['firstname'],
@@ -77,7 +93,7 @@ class AuthController extends Controller
      * @return [string] access_token
      * @return [string] token_type
      */
-     
+
     public function login(Request $request)
     {
        return $this->tokenGenerate($request);
@@ -109,7 +125,7 @@ class AuthController extends Controller
 
     /**
      * Génération du token
-     * @param Request $request 
+     * @param Request $request
      * @param [string] email
      * @param [string] password
      * @param [string] device_name
@@ -121,15 +137,15 @@ class AuthController extends Controller
             'password' => 'required',
             'device_name' => 'required',
         ]);
-     
+
         $user = User::where('email', $request->email)->first();
-     
+
         if (! $user || ! Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
                 'email' => ['The provided credentials are incorrect.'],
             ]);
         }
-     
+
         $token = $user->createToken($request->device_name)->plainTextToken;
         return response()->json([
             'access_token' => $token,
