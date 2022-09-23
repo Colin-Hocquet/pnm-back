@@ -2,14 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Settings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+
 class AuthController extends Controller
 {
     /**
      * Création d'un nouvel utilisateur
+     * Création de la table Settings pour l'utilisateur
      * @param Request $request
      * @param [string] name
      * @param [string] firstname
@@ -28,45 +30,27 @@ class AuthController extends Controller
             'password' => 'required|string|min:8',
         ]);
         try {
-            User::create([
+            $user = User::create([
                 'name' => $validatedData['name'],
                 'firstname' => $validatedData['firstname'],
                 'lastname' => $validatedData['lastname'],
                 'email' => $validatedData['email'],
                 'password' => Hash::make($validatedData['password']),
             ]);
+            Settings::create([
+                'user_id' => $user->id
+            ]);
             return response()->json([
                 'message' => __('User created'),
-                'result'  => true
+                'result' => true
             ]);
-        }catch (\Exception $exception){
+        } catch (\Exception $exception) {
             return response()->json([
                 'message' => $exception->getMessage(),
-                'result'  => false
+                'result' => false
             ]);
         }
-        // if(User::create([
-        //             'name' => $validatedData['name'],
-        //             'firstname' => $validatedData['firstname'],
-        //             'lastname' => $validatedData['lastname'],
-        //             'email' => $validatedData['email'],
-        //             'password' => Hash::make($validatedData['password']),
-        //     ])){
-        //         return response()->json([
-        //             'success' => 'Utilisateur créé avec succés !'
-        //         ],200);
-        //     } else {
-
-        //     }
-
-        // $token = $user->createToken('auth_token')->plainTextToken;
-
-        // return response()->json([
-        //             'access_token' => $token,
-        //                 'token_type' => 'Bearer',
-        // ]);
     }
-
 
     /**
      * connexion de l'utilisateur et création du token
@@ -77,7 +61,7 @@ class AuthController extends Controller
      * @return [string] access_token
      * @return [string] token_type
      */
-     
+
     public function login(Request $request)
     {
        return $this->tokenGenerate($request);
@@ -109,7 +93,7 @@ class AuthController extends Controller
 
     /**
      * Génération du token
-     * @param Request $request 
+     * @param Request $request
      * @param [string] email
      * @param [string] password
      * @param [string] device_name
@@ -121,15 +105,15 @@ class AuthController extends Controller
             'password' => 'required',
             'device_name' => 'required',
         ]);
-     
+
         $user = User::where('email', $request->email)->first();
-     
+
         if (! $user || ! Hash::check($request->password, $user->password)) {
             throw ValidationException::withMessages([
                 'email' => ['The provided credentials are incorrect.'],
             ]);
         }
-     
+
         $token = $user->createToken($request->device_name)->plainTextToken;
         return response()->json([
             'access_token' => $token,
