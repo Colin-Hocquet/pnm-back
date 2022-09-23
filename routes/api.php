@@ -6,8 +6,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\BoxController;
-use App\Http\Controllers\AddressController;
 use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\VehicleController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ForgotPasswordController;
@@ -41,7 +41,8 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
         'inventory' => InventoryController::class,
         'box' => BoxController::class,
         'vehicle' => VehicleController::class,
-        'itembox' => ItemBoxController::class
+        'itembox' => ItemBoxController::class,
+        'settings' => SettingsController::class
     ]);
     Route::get('inventory/items/{id}', [ItemController::class,'findAllItemByInventory'])->name('inventory.findAllItemByInventory');
     Route::get('inventory/byuser/{id}', [InventoryController::class,'findAllInventoriesByUserId'])->name('inventory.findAllInventoriesByUserId');
