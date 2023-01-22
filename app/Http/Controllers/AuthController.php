@@ -111,9 +111,12 @@ class AuthController extends Controller
         $user = User::where('email', $request->email)->first();
 
         if (! $user || ! Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
-            ]);
+            $content = array(
+                'success' => false,
+                'data' => 'something went wrong.',
+                'message' => 'Credentials not know'
+            );
+            return response($content)->setStatusCode(422);
         }
 
         $token = $user->createToken($request->device_name)->plainTextToken;
