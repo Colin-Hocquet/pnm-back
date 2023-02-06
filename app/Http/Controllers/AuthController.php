@@ -120,7 +120,7 @@ class AuthController extends Controller
         return response()->json([
             'access_token' => $token,
             'token_type' => 'Bearer',
-            'expired_at' => now()->addHours(24),
+            'expired_at' => now()->addHours(24)->getTimestamp(),
             'user' => $user,
     ]);
     }
