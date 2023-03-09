@@ -69,6 +69,21 @@ class AuthController extends Controller
        return $this->tokenGenerate($request);
     }
 
+    public function loginAdmin(Request $request)
+    {
+        $user = User::where('email', $request->email)->first();
+        if($user != null && $user->is_admin === 1){
+            return $this->tokenGenerate($request);
+        } else {
+            $content = array(
+                'success' => false,
+                'data' => 'something went wrong.',
+                'message' => 'You\'re not admin or credential not know'
+            );
+            return response($content)->setStatusCode(422);
+        }
+    }
+
     /**
      * Lors de la déconnexion, on supprime le token
      * @param Request $request (email / Bearer token)
