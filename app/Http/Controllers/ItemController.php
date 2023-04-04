@@ -27,11 +27,9 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        if (Item::create($request->all())) {
-            return response()->json([
-                'success' => 'Item créé avec succès !'
-            ], 200);
-        }
+       $variable = Item::create($request->all());
+
+        return $variable->id;
     }
 
     /**

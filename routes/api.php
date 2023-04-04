@@ -53,5 +53,6 @@ Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::get('box/all-by-user/{userid}', [BoxController::class,'findAllBoxByUserID'])->name('box.findAllBoxByUserID');
     Route::get('box/all-item/{id}', [BoxController::class,'showItemByBox'])->name('box.showItemByBox');
     Route::get('lastitem', [ItemController::class,'findLastItem'])->name('item.findLastItem');
+    Route::post('box/generateBoxAndCreateItemBox', [BoxController::class,'generateBoxAndCreateItemBox'])->name('box.generateBoxAndCreateItemBox');
 });
 
