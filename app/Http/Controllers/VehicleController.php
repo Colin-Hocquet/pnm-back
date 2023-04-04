@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Vehicle;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class VehicleController extends Controller
 {
@@ -25,6 +26,7 @@ class VehicleController extends Controller
      */
     public function store(Request $request)
     {
+        log::info($request->all());
         if(Vehicle::create($request->all())){
             return response()->json([
                 'success' => 'Véhicule créé avec succès !'

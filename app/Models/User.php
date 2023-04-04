@@ -23,6 +23,7 @@ class User extends Authenticatable
         'lastname',
         'email',
         'password',
+        'is_admin'
     ];
 
     /**
@@ -34,7 +35,6 @@ class User extends Authenticatable
         'password',
         'remember_token',
         'email_verified_at',
-        'is_admin',
         'created_at',
         'updated_at'
     ];

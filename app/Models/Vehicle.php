@@ -17,7 +17,8 @@ class Vehicle extends Model
     protected $fillable = [
         'label',
         'description',
-        'image'
+        'image',
+        'capacity'
     ];
 
     /**
