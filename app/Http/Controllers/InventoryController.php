@@ -26,11 +26,8 @@ class InventoryController extends Controller
      */
     public function store(Request $request)
     {
-        if(Inventory::create($request->all())){
-            return response()->json([
-                'success' => 'Inventaire créé avec succès !'
-            ],200);
-        }
+        $variable = Inventory::create($request->all());
+        return $variable->id;
     }
 
     /**
