@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Inventory;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class InventoryController extends Controller
 {
@@ -89,17 +92,28 @@ class InventoryController extends Controller
      */
     public function destroy(Inventory $inventory)
     {
-        $attribute = DB::table('inventories')->where('id',$inventory->id)->where('default',0)->get();
+        $user = Auth::user();
+        log::info($user);
 
-        if($attribute->isEmpty()){
-            return response()->json([
-                'error' => 'Les pièces par défauts ne peuvent pas être supprimés !'
-            ], 400);
-        } else {
+        $attribute = DB::table('inventories')->where('id',$inventory->id)->get();
+
+        log:info($attribute[0]->default) ;
+
+        if($attribute[0]->default === 1) {
+            if($user != null && $user->is_admin === 1) {
+                $inventory->delete();
+                return response()->json([
+                    'success' => 'Pièce supprimé avec succès !'
+                ], 200);
+            } else {
+                return response()->json([
+                    'error' => 'Les pièces par défauts ne peuvent pas être supprimés !'
+                ], 400);
+            }
+        }
             $inventory->delete();
             return response()->json([
                 'success' => 'Pièce supprimé avec succès !'
             ], 200);
-        }
     }
 }
