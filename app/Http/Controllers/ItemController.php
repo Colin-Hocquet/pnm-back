@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ItemController extends Controller
@@ -27,7 +28,7 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-       $variable = Item::create($request->all());
+        $variable = Item::create($request->all());
 
         return $variable->id;
     }
@@ -52,7 +53,7 @@ class ItemController extends Controller
     public function findAllItemByInventory(string $id)
     {
 
-        $items = DB::table('items')->where('inventory_id', $id)->get(["id", "label", "quantity","default"]);
+        $items = DB::table('items')->where('inventory_id', $id)->get(["id", "label", "quantity", "default"]);
         return $items;
     }
 
@@ -63,7 +64,7 @@ class ItemController extends Controller
      */
     public function findLastItemByInventory(string $inventoryId)
     {
-        $item = DB::table('items')->where("inventory_id",$inventoryId)->get(["id","label","quantity"])->last();
+        $item = DB::table('items')->where("inventory_id", $inventoryId)->get(["id", "label", "quantity"])->last();
         return $item;
     }
 
@@ -91,17 +92,25 @@ class ItemController extends Controller
      */
     public function destroy(Item $item)
     {
-        $attribute = DB::table('items')->where('id',$item->id)->where('default',0)->get();
+        $user = Auth::user();
 
-        if($attribute->isEmpty()){
-            return response()->json([
-                'error' => 'Les items par défauts ne peuvent pas être supprimés !'
-            ], 400);
-        } else {
-            $item->delete();
-            return response()->json([
-                'success' => 'Item supprimé avec succès !'
-            ], 200);
+        $attribute = DB::table('items')->where('id', $item->id)->get();
+
+        if ($attribute[0]->default === 1) {
+            if ($user != null && $user->is_admin === 1) {
+                $item->delete();
+                return response()->json([
+                    'success' => 'Pièce supprimé avec succès !'
+                ], 200);
+            } else {
+                return response()->json([
+                    'error' => 'Les pièces par défauts ne peuvent pas être supprimés !'
+                ], 400);
+            }
         }
+        $item->delete();
+        return response()->json([
+            'success' => 'Item supprimé avec succès !'
+        ], 200);
     }
 }
