@@ -46,6 +46,17 @@ class InventoryController extends Controller
 
 
     /**
+     * Find all default inventory.
+     * @param  \App\Models\Inventory  inventory id param
+     * @return \Illuminate\Http\Response
+     */
+    public function findAllDefaultInventories()
+    {
+        $inventory = DB::table('inventories')->where('inventories.default', 1)->get();
+        return $inventory;
+    }
+
+    /**
      * Find all inventories by user_id and default inventory.
      * @param  \App\Models\Inventory  inventory id param
      * @return \Illuminate\Http\Response
