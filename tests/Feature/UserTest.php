@@ -1,9 +1,4 @@
 <?php
-it('try wrong credential to login', function () {
-    $response = $this->get('api/user/1');
-    $response->assertStatus(401);
-});
-
 it('unauthenticated user cannot get userDetail', function () {
     $response = $this->get('api/user/1');
     $response->assertStatus(401);
