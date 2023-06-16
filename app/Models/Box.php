@@ -16,7 +16,8 @@ class Box extends Model
     protected $fillable = [
         'label',
         'qrcode',
-        'user_id'
+        'user_id',
+        'is_delicate'
     ];
 
     /**

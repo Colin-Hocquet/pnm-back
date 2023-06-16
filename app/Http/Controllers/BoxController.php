@@ -109,7 +109,7 @@ class BoxController extends Controller
         $itemBox = DB::table('boxes')
             ->join('item_box', 'boxes.id', '=', 'item_box.box_id')
             ->join('items', 'items.id', '=', 'item_box.item_id')
-            ->select("boxes.label as boxName", "items.label as itemName", "item_box.quantity")
+            ->select("boxes.label as boxName", "items.label as itemName", "item_box.quantity", "boxes.is_delicate as delicate")
             ->where('item_box.box_id', $id)
             ->get();
         return $itemBox;
