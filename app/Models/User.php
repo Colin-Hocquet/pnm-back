@@ -19,8 +19,11 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'firstname',
+        'lastname',
         'email',
         'password',
+        'is_admin'
     ];
 
     /**
@@ -31,6 +34,9 @@ class User extends Authenticatable
     protected $hidden = [
         'password',
         'remember_token',
+        'email_verified_at',
+        'created_at',
+        'updated_at'
     ];
 
     /**
@@ -41,4 +47,18 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function address(){
+        return $this->hasMany(Address::class );
+    }
+
+    public function inventory(){
+        return $this->hasMany(Inventory::class );
+    }
+
+    public function sendPasswordResetNotification($token)
+    {
+        $url = 'http://127.0.0.1:8000'.'/password/forgot-password'.'?token='.$token;
+        $this->notify(new \App\Notifications\MailResetPasswordNotification($url));
+    }
 }
